@@ -19,12 +19,14 @@ def calculate():
         result = x - y
     elif operation == 'multiply':
         result = x * y
+    elif operation == 'divide' and y == 0:
+        result = "Zero Denominator Error - Cannot divide by 0, please choose a number of value equal or higher than 1."
     elif operation == 'divide':
         result = x / y
     else:
         return "Invalid operation or Missing parameters, please check your query value matches format: /calculate?operation=operation_name&x=x_value&y=y_value - example: /calculate?operation=divide&x=10&y=5"
 
-    return f'{operation} x={x} y={y}, result={result}'
+    return f'{operation} x= {x} y= {y}, result= {result}'
 
 @app.route('/reverse-string', methods=['POST'])
 def reverse_string():
@@ -36,3 +38,15 @@ def reverse_string():
             result.append(value[::-1])
 
     return result
+
+@app.route('/divide', methods=['GET'])
+def divide():
+    x = request.args.get('x', type =float)
+    y = request.args.get('y', type=float)
+
+    if y == 0:
+        result = "Zero Denominator Error - Cannot divide by 0, please choose a number of value equal or higher than 1."
+    else:
+        result = x/y
+
+    return f'{result}'
