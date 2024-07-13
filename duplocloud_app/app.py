@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request
 
 app = Flask(__name__)
 
@@ -24,4 +24,15 @@ def calculate():
     else:
         return "Invalid operation or Missing parameters, please check your query value matches format: /calculate?operation=operation_name&x=x_value&y=y_value - example: /calculate?operation=divide&x=10&y=5"
 
-    return jsonify(result=result)
+    return f'{operation} x={x} y={y}, result={result}'
+
+@app.route('/reverse-string', methods=['POST'])
+def reverse_string():
+    data = request.get_json()
+    result = []
+
+    for key, value in data.items():
+        if isinstance(value, str):
+            result.append(value[::-1])
+
+    return result
