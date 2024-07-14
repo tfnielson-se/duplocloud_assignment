@@ -46,4 +46,4 @@ jobs:
         platforms: linux/amd64,linux/arm64
         push: true # false for dry runs
         build-args: >
-          name=${{ github.repository }}
+          name=tfnielson/duplo_tfnpy
