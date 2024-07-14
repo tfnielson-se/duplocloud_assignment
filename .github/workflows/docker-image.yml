@@ -28,7 +28,7 @@ jobs:
     name: Build and Push Image
     runs-on: ubuntu-latest
     outputs:
-      image: ${{ steps.build_image.outputs.uri }}
+      image: tfnielson/duplo_tfnpy
     steps:
 
     - name: Checkout code
