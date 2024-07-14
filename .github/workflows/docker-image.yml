@@ -17,4 +17,4 @@ jobs:
     - name: Build the Docker image
       run: docker build -t tfnielson/duplo_tfnpy .
     - name: Push Docker Image
-      run: docker push tfnielson/duplo_tfnpy .
+      run: docker push tfnielson/duplo_tfnpy:gitpush
