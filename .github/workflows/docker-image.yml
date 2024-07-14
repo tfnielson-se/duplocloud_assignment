@@ -18,10 +18,10 @@ on:
         required: true
 
 env:
-  DUPLO_HOST: 570571619115.dkr.ecr.us-west-1.amazonaws.com/py-app
+  DUPLO_HOST: 10.1.2.182
   DUPLO_TOKEN: ${{ secrets.DUPLO_TOKEN }}
   # Images are usually stored in a dedicated tenant, so the name doesn't change
-  DUPLO_TENANT: devops
+  DUPLO_TENANT: tfn
 
 jobs:
   build_image:
@@ -37,10 +37,10 @@ jobs:
     # Configures DuploCloud and the host cloud, for example, AWS
     - name: Cloud CI Setup
       uses: duplocloud/actions/setup@v0.0.5
-
+    
     # logs into the registry, configures Docker, builds the image, and lastly pushes
     - name: Build and Push Docker Image
-      id: 570571619115
+      id: py-app
       uses: duplocloud/actions/build-image@v0.0.5
       with:
         platforms: linux/amd64,linux/arm64
