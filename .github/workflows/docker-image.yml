@@ -35,8 +35,8 @@ jobs:
       uses: actions/checkout@v4
 
     # Configures DuploCloud and the host cloud, for example, AWS
-    - name: Cloud CI Setup
-      uses: duplocloud/actions/setup@v0.0.5
+    # - name: Cloud CI Setup
+    #   uses: duplocloud/actions/setup@v0.0.5
     
     # logs into the registry, configures Docker, builds the image, and lastly pushes
     - name: Build and Push Docker Image
