@@ -2,9 +2,9 @@ name: Docker Image CI
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "tfn-se" ]
   pull_request:
-    branches: [ "main" ]
+    branches: [ "tfn-se" ]
 
 jobs:
 
@@ -23,3 +23,21 @@ jobs:
 
     - name: Push Docker Image
       run: docker push tfnielson/duplo_tfnpy:latest
+
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v2
+      with:
+        aws-access-key-id: ${{ secrets.DUPLOCLOUD_AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.DUPLOCLOUD_AWS_SECRET_ACCESS_KEY }}
+        aws-region: us-west-1 
+
+    - name: Log in to DuploCloud ECR
+      id: ecr-login
+      run: |
+        aws ecr get-login-password --region us-west-1 | docker login --username AWS --password-stdin 570571619115.dkr.ecr.us-west-1.amazonaws.com
+
+    - name: Tag Docker Image for DuploCloud ECR
+      run: docker tag tfnielson/duplo_tfnpy:latest 570571619115.dkr.ecr.us-west-1.amazonaws.com/py-app:latest
+
+    - name: Push Docker Image to DuploCloud ECR
+      run: docker push 570571619115.dkr.ecr.us-west-1.amazonaws.com/py-app:latest
