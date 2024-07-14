@@ -18,10 +18,12 @@ on:
                 required: true
 
 env:
-    DUPLO_HOST: ${{ vars.DUPLO_HOST }}
+    DUPLO_HOST: tfn-py-tfn.test04-apps.duplocloud.net
     DUPLO_TOKEN: ${{ secrets.DUPLO_TOKEN }}
     # Images are usually stored in a dedicated tenant, so the name doesn't change
     DUPLO_TENANT: tfn
+    ECR_REGISTRY: 570571619115.dkr.ecr.us-west-1.amazonaws.com
+    ECR_REPOSITORY: py-app
 
 jobs:
     build_image:
