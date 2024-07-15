@@ -11,8 +11,15 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
+    env:
+      DUPLO_TOKEN: ${{ secrets.DUPLO_TOKEN }}
+      DUPLO_HOST: ${{ vars.DUPLO_HOST  }}
+      DUPLO_TENANT: ${{ vars.DUPLO_TENANT }}
 
     steps:
+    - name: Duplo Setup
+      uses: duplocloud/actions/setup@main
+
     - uses: actions/checkout@v4
 
     - name: Log in to Docker Hub
