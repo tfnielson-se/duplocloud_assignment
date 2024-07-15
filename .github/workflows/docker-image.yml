@@ -12,15 +12,13 @@ jobs:
 
     runs-on: ubuntu-latest
     env:
-      DUPLO_TOKEN: ${{ secrets.DUPLO_TOKEN }}
+     DUPLO_TOKEN: ${{ secrets.DUPLO_TOKEN }}
       DUPLO_HOST: ${{ secrets.DUPLO_HOST  }}
       DUPLO_TENANT: ${{ secrets.DUPLO_TENANT }}
-      DUPLO_ACCOUNT_ID: ${{ secrets.DUPLO_ACCOUNT_ID}}
-      DUPLO_DEFAULT_REGION: us-west-1
 
     steps:
     - name: Duplo Setup
-      uses: duplocloud/actions/setup@v0.0.5
+      uses: duplocloud/actions/setup@main
 
     - uses: actions/checkout@v4
 
