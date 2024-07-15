@@ -1,25 +1,48 @@
 name: Docker Image CI
 
 on:
-  push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+    push:
+        branches: ["tfn-se"]
+    pull_request:
+        branches: ["tfn-se"]
 
 jobs:
+    build:
+        runs-on: ubuntu-latest
+        env:
+            DUPLO_TOKEN: ${{ secrets.DUPLO_TOKEN }}
+            DUPLO_HOST: ${{ secrets.DUPLO_HOST  }}
+            DUPLO_TENANT: ${{ secrets.DUPLO_TENANT }}
 
-  build:
+        steps:
+            - name: Duplo Setup
+              uses: duplocloud/actions/setup@main
 
-    runs-on: ubuntu-latest
+            - uses: actions/checkout@v4
 
-    steps:
-    - uses: actions/checkout@v4
+            - name: Log in to Docker Hub
+              run: echo "${{ secrets.DOCKER_HUB_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_HUB_USERNAME }}" --password-stdin
 
-    - name: Log in to Docker Hub
-      run: echo "${{ secrets.DOCKER_HUB_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_HUB_USERNAME }}" --password-stdin
+            - name: Build the Docker image
+              run: docker build -t tfnielson/duplo_tfnpy:latest .
 
-    - name: Build the Docker image
-      run: docker build -t tfnielson/duplo_tfnpy .
+            - name: Push Docker Image to Docker Hub
+              run: docker push tfnielson/duplo_tfnpy:latest
 
-    - name: Push Docker Image
-      run: docker push tfnielson/duplo_tfnpy:latest
+            # - name: Configure AWS credentials
+            #   uses: aws-actions/configure-aws-credentials@v2
+            #   with:
+            #     aws-access-key-id: ${{ secrets.DUPLOCLOUD_AWS_ACCESS_KEY_ID }}
+            #     aws-secret-access-key: ${{ secrets.DUPLOCLOUD_AWS_SECRET_ACCESS_KEY }}
+            #     aws-region: us-west-1
+
+            - name: Log in to DuploCloud ECR
+              id: py-app
+              run: |
+                  aws ecr get-login-password --region us-west-1 | docker login --username AWS --password-stdin 570571619115.dkr.ecr.us-west-1.amazonaws.com
+
+            - name: Tag Docker Image for DuploCloud ECR
+              run: docker tag tfnielson/duplo_tfnpy:latest 570571619115.dkr.ecr.us-west-1.amazonaws.com/py-app:latest
+
+            - name: Push Docker Image to DuploCloud ECR
+              run: docker push 570571619115.dkr.ecr.us-west-1.amazonaws.com/py-app:latest
