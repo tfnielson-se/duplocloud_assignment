@@ -31,7 +31,7 @@ jobs:
         aws-secret-access-key: ${{ secrets.DUPLOCLOUD_AWS_SECRET_ACCESS_KEY }}
         aws-region: us-west-1
     - name: Log in to DuploCloud ECR
-      id: 570571619115
+      id: py-app
       run: |
         aws ecr get-login-password --region us-west-1 | docker login --username AWS --password-stdin 570571619115.dkr.ecr.us-west-1.amazonaws.com
 
