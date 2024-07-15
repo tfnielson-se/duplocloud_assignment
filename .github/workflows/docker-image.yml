@@ -19,9 +19,9 @@ jobs:
       run: echo "${{ secrets.DOCKER_HUB_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_HUB_USERNAME }}" --password-stdin
 
     - name: Build the Docker image
-      run: docker build -t tfnielson/duplo_tfnpy .
+      run: docker build -t tfnielson/duplo_tfnpy:latest .
 
-    - name: Push Docker Image
+    - name: Push Docker Image to Docker Hub
       run: docker push tfnielson/duplo_tfnpy:latest
 
     - name: Configure AWS credentials
@@ -29,8 +29,7 @@ jobs:
       with:
         aws-access-key-id: ${{ secrets.DUPLOCLOUD_AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.DUPLOCLOUD_AWS_SECRET_ACCESS_KEY }}
-        aws-region: us-west-1 
-
+        aws-region: us-west-1
     - name: Log in to DuploCloud ECR
       id: ecr-login
       run: |
